@@ -16,6 +16,7 @@ from ..const import (
     CONF_CONNECTION_TYPE,
     CONF_DEEP_SCAN,
     CONF_ENABLE_DEVICE_SCAN,
+    CONF_FILTER_AFC,
     CONF_FORCE_FULL_REGISTER_LIST,
     CONF_LOG_LEVEL,
     CONF_MAX_REGISTERS_PER_REQUEST,
@@ -40,6 +41,7 @@ from ..const import (
     DEFAULT_CONNECTION_TYPE,
     DEFAULT_DEEP_SCAN,
     DEFAULT_ENABLE_DEVICE_SCAN,
+    DEFAULT_FILTER_AFC,
     DEFAULT_LOG_LEVEL,
     DEFAULT_MAX_REGISTERS_PER_REQUEST,
     DEFAULT_PARITY,
@@ -57,6 +59,8 @@ from ..const import (
     DEFAULT_SYNC_DEVICE_CLOCK_ON_START,
     DEFAULT_TIMEOUT,
     DOMAIN,
+    FILTER_AFC_ABSENT,
+    FILTER_AFC_PRESENT,
     MAX_BATCH_REGISTERS,
     MIN_SCAN_INTERVAL,
 )
@@ -101,6 +105,7 @@ def build_options_defaults(
         CONF_SYNC_DEVICE_CLOCK_MAX_DRIFT_SECONDS: entry_options.get(
             CONF_SYNC_DEVICE_CLOCK_MAX_DRIFT_SECONDS, DEFAULT_SYNC_DEVICE_CLOCK_MAX_DRIFT_SECONDS
         ),
+        CONF_FILTER_AFC: entry_options.get(CONF_FILTER_AFC, DEFAULT_FILTER_AFC),
         CONF_CONNECTION_TYPE: entry_data.get(CONF_CONNECTION_TYPE, DEFAULT_CONNECTION_TYPE),
         CONF_CONNECTION_MODE: entry_options.get(
             CONF_CONNECTION_MODE, entry_data.get(CONF_CONNECTION_MODE)
@@ -214,6 +219,20 @@ def build_options_schema(values: dict[str, Any]) -> vol.Schema:
                 default=values[CONF_SYNC_DEVICE_CLOCK_MAX_DRIFT_SECONDS],
                 description={"selector": {"number": {"min": 30, "max": 86400, "step": 1}}},
             ): vol.All(vol.Coerce(int), vol.Range(min=30, max=86400)),
+            vol.Optional(
+                CONF_FILTER_AFC,
+                default=values.get(CONF_FILTER_AFC, DEFAULT_FILTER_AFC),
+                description={
+                    "selector": {
+                        "select": {
+                            "options": [
+                                {"value": option, "label": f"{DOMAIN}.filter_afc_{option}"}
+                                for option in (FILTER_AFC_PRESENT, FILTER_AFC_ABSENT)
+                            ]
+                        }
+                    }
+                },
+            ): vol.In({FILTER_AFC_PRESENT, FILTER_AFC_ABSENT}),
         }
     )
 

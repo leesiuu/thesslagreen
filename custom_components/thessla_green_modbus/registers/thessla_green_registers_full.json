@@ -3739,7 +3739,9 @@
         "1": "presostat",
         "2": "filtry płaskie",
         "3": "filtry CleanPad",
-        "4": "filtry CleanPad Pure"
+        "4": "filtry CleanPad Pure",
+        "17": "wymiana filtra nawiewnego",
+        "33": "wymiana filtra wywiewnego"
       },
       "multiplier": 1.0,
       "resolution": 1.0,

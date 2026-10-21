@@ -6,9 +6,10 @@ from typing import Any
 
 import voluptuous as vol
 
-from ..const import DOMAIN
+from ..const import DOMAIN, FILTER_REPLACEMENT_COMMANDS
 
 FILTER_TYPE_MAP = {"presostat": 1, "flat_filters": 2, "cleanpad": 3, "cleanpad_pure": 4}
+FILTER_RESET_MAP = {**FILTER_TYPE_MAP, **FILTER_REPLACEMENT_COMMANDS}
 BAUD_MAP = {
     "4800": 0,
     "9600": 1,
@@ -125,7 +126,7 @@ def iter_air_quality_writes(
 
 def filter_reset_value(normalize: Any, raw_filter_type: str) -> int:
     """Map filter reset option payload to register value."""
-    return FILTER_TYPE_MAP[normalize(raw_filter_type)]
+    return FILTER_RESET_MAP[normalize(raw_filter_type)]
 
 
 def pressure_test_payload(now: Any) -> list[tuple[str, int]]:

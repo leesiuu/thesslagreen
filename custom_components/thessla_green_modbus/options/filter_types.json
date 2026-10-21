@@ -2,5 +2,7 @@
   "thessla_green_modbus.filter_type_presostat",
   "thessla_green_modbus.filter_type_flat_filters",
   "thessla_green_modbus.filter_type_cleanpad",
-  "thessla_green_modbus.filter_type_cleanpad_pure"
+  "thessla_green_modbus.filter_type_cleanpad_pure",
+  "thessla_green_modbus.filter_type_replace_supply_filter",
+  "thessla_green_modbus.filter_type_replace_exhaust_filter"
 ]

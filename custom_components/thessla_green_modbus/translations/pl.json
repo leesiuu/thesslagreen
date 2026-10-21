@@ -537,7 +537,9 @@
           "presostat": "Presostat",
           "flat_filters": "Filtry płaskie",
           "cleanpad": "CleanPad",
-          "cleanpad_pure": "CleanPad Pure"
+          "cleanpad_pure": "CleanPad Pure",
+          "replace_supply_filter": "Wymiana filtra nawiewnego",
+          "replace_exhaust_filter": "Wymiana filtra wywiewnego"
         }
       },
       "gwc_regen": {
@@ -1461,7 +1463,8 @@
           "sync_device_clock_on_start": "Synchronizuj zegar przy uruchomieniu integracji",
           "timeout": "Limit czasu połączenia (s)",
           "scan_uart_settings": "Skanuj ustawienia portów UART",
-          "airflow_unit": "Jednostka przepływu powietrza"
+          "airflow_unit": "Jednostka przepływu powietrza",
+          "filter_afc": "AFC filtrów"
         },
         "data_description": {
           "deep_scan": "Zaawansowana diagnostyka offline: odczytuje surowe rejestry 0–286. Nie jest wymagana do normalnej walidacji. Może generować odpowiedzi o nieobsługiwanych zakresach i konflikty z aktywnym pollowaniem.",
@@ -1479,7 +1482,8 @@
           "sync_device_clock_on_start": "Synchronizuj raz po pierwszym połączeniu z urządzeniem",
           "timeout": "Maksymalny limit czasu oczekiwania na odpowiedź (5-60 s)",
           "scan_uart_settings": "Odczytuj rejestry konfiguracji portów UART z urządzenia podczas skanowania",
-          "airflow_unit": "Jednostka wyświetlania wartości przepływu (procenty lub metry sześcienne na godzinę)"
+          "airflow_unit": "Jednostka wyświetlania wartości przepływu (procenty lub metry sześcienne na godzinę)",
+          "filter_afc": "Czy centrala ma AFC (automatyczny pomiar zużycia filtrów, standard w wersjach Energy++ i Enthalpy) na obu filtrach."
         },
         "description": "Skonfiguruj zaawansowane opcje integracji. Aktualne ustawienia: Częstotliwość odczytu: {current_scan_interval} s, Limit czasu połączenia: {current_timeout} s, Liczba powtórzeń nieudanych odczytów: {current_retry}, Wymuś pełną listę rejestrów: {force_full_enabled}. Skanowanie urządzenia włączone: {device_scan_enabled}. Pomijaj znane brakujące rejestry: {skip_missing_enabled}. Głęboki skan: {deep_scan_enabled}. Bezpieczny skan: {safe_scan_enabled}. Maksymalna liczba rejestrów na żądanie: {current_max_registers_per_request}. Poziom logowania: {current_log_level}. Transport: {transport_label}{transport_details}.",
         "title": "Opcje ThesslaGreen Modbus"

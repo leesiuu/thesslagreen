@@ -7,13 +7,17 @@ from datetime import datetime as _dt
 from typing import Any
 
 from homeassistant.core import HomeAssistant, ServiceCall
-from homeassistant.exceptions import HomeAssistantError
+from homeassistant.exceptions import HomeAssistantError, ServiceValidationError
 from pymodbus.exceptions import ConnectionException, ModbusException
 
 from ..clock_sync import async_perform_clock_sync
 from ..const import (
+    CONF_FILTER_AFC,
     CONF_SYNC_DEVICE_CLOCK_MAX_DRIFT_SECONDS,
+    DEFAULT_FILTER_AFC,
     DEFAULT_SYNC_DEVICE_CLOCK_MAX_DRIFT_SECONDS,
+    FILTER_AFC_ABSENT,
+    FILTER_REPLACEMENT_COMMANDS,
 )
 from .dispatch import (
     refresh_and_log_success,
@@ -32,6 +36,7 @@ from .schema import (
     SYNC_TIME_SCHEMA,
 )
 from .validation import (
+    FILTER_TYPE_MAP,
     filter_reset_value,
     iter_modbus_parameter_writes,
     normalize_modbus_options,
@@ -161,11 +166,29 @@ async def _write_then_refresh(
     return await _run_with_success_log(coordinator, deps, success_message, *success_args)
 
 
+def _filter_afc_setting(coordinator: Any) -> str:
+    entry = getattr(coordinator, "entry", None)
+    options = getattr(entry, "options", None) or {}
+    return str(options.get(CONF_FILTER_AFC, DEFAULT_FILTER_AFC))
+
+
+def _check_filter_value_for_target(filter_value: int, entity_id: str, coordinator: Any) -> None:
+    afc = _filter_afc_setting(coordinator)
+    allowed = FILTER_REPLACEMENT_COMMANDS if afc == FILTER_AFC_ABSENT else FILTER_TYPE_MAP
+    if filter_value not in allowed.values():
+        raise ServiceValidationError(
+            f"Filter value {filter_value} is not allowed for {entity_id} "
+            f"with filter_afc set to {afc}; allowed: {', '.join(allowed)}."
+        )
+
+
 def _build_reset_filters_handler(hass: HomeAssistant, deps: ServiceHandlerDeps) -> ServiceHandler:
     async def reset_filters(call: ServiceCall) -> None:
         filter_value = filter_reset_value(deps.normalize_option, call.data["filter_type"])
 
         async def _reset_filters_for_target(entity_id: str, coordinator: Any) -> bool:
+            _check_filter_value_for_target(filter_value, entity_id, coordinator)
+
             async def _write_flow() -> bool:
                 return await deps.write_register(
                     coordinator, "filter_change", filter_value, entity_id, "reset filters"

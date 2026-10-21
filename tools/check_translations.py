@@ -30,6 +30,7 @@ OPTION_KEYS = [
     "sync_device_clock_on_start",
     "sync_device_clock_interval_hours",
     "sync_device_clock_max_drift_seconds",
+    "filter_afc",
 ]
 
 OPTION_ERROR_KEYS = [

@@ -18,6 +18,7 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from pymodbus.exceptions import ConnectionException, ModbusException
 
 from .capability_rules import capability_block_reason
+from .const import CONF_FILTER_AFC, FILTER_AFC_ABSENT, FILTER_REPLACEMENT_COMMANDS
 from .coordinator import ThesslaGreenModbusCoordinator
 from .entity import ThesslaGreenEntity
 from .mappings import ENTITY_MAPPINGS
@@ -65,6 +66,12 @@ async def async_setup_entry(
         _LOGGER.debug("Created %d select entities", len(entities))
 
 
+def _filter_afc_absent(coordinator: ThesslaGreenModbusCoordinator) -> bool:
+    entry = getattr(coordinator, "entry", None)
+    options = entry.options if entry is not None else {}
+    return bool(options.get(CONF_FILTER_AFC) == FILTER_AFC_ABSENT)
+
+
 class ThesslaGreenSelect(ThesslaGreenEntity, SelectEntity):
     """Select entity for ThesslaGreen device."""
 
@@ -83,6 +90,8 @@ class ThesslaGreenSelect(ThesslaGreenEntity, SelectEntity):
         self._attr_icon = definition.get("icon")
         self._attr_has_entity_name = True
         self._states: dict[str, Any] = dict(definition["states"])
+        if register_name == "filter_change" and _filter_afc_absent(coordinator):
+            self._states = dict(FILTER_REPLACEMENT_COMMANDS)
         self._reverse_states: dict[Any, str] = {v: k for k, v in self._states.items()}
         self._attr_options = list(self._states.keys())
         if _ec := definition.get("entity_category"):
