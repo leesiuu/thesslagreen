@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.9.0] - 2026-10-21
+
+> Release of the `leesiuu/thesslagreen` fork, not of upstream `blakinio/thesslagreen`: upstream `v2.8.4` plus the four fixes below, each also offered upstream as its own pull request. The fork exists only until an upstream release carries all four.
+
+### Fixed
+
+- **RTU serial client on pymodbus 3.7 and newer.** The RTU transport no longer passes `method="rtu"` to `AsyncModbusSerialClient`, which pymodbus 3.7.0 and newer reject with a `TypeError`; the framer already defaults to RTU. A new test builds the real pymodbus client instead of a dummy (blakinio/thesslagreen#1783).
+- **Filter wear and replacement dates.** On controller firmware 4.75 and newer the device scan reads `cfgszf_fn_new` (4482), `cfgszf_fw_new` (4483), `filter_supply_date_limit_get` (4660) and `filter_exhaust_date_limit_get` (4662), which the vendor register table defines from 4.75; below 4.75 they stay skipped.
+- **Filter replacement command.** A new option, `filter_afc`, says whether the unit has AFC. Without AFC, the `filter_change` select and the `reset_filters` action offer the vendor's replacement commands — 17 for the supply filter, 33 for the exhaust filter; with AFC, the default, they keep the filter types 1–4.
+- **Season labels.** The `season_mode` select maps 0 to `summer` and 1 to `winter`, as the vendor table defines register 4209; the labels were inverted.
+
 ## [2.8.3] - 2026-07-09
 
 > Wrap-up of the post-refactor cleanup series. Ships the targeted read-back safe
