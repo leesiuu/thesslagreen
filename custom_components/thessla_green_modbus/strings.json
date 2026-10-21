@@ -537,7 +537,9 @@
           "presostat": "Pressure switch",
           "flat_filters": "Flat Filters",
           "cleanpad": "CleanPad",
-          "cleanpad_pure": "CleanPad Pure"
+          "cleanpad_pure": "CleanPad Pure",
+          "replace_supply_filter": "Replace supply filter",
+          "replace_exhaust_filter": "Replace exhaust filter"
         }
       },
       "gwc_regen": {
@@ -1461,7 +1463,8 @@
           "sync_device_clock_on_start": "Sync clock on integration start",
           "timeout": "Connection Timeout (seconds)",
           "scan_uart_settings": "Scan UART Port Settings",
-          "airflow_unit": "Airflow Unit"
+          "airflow_unit": "Airflow Unit",
+          "filter_afc": "Filter AFC"
         },
         "data_description": {
           "deep_scan": "Read raw registers 0-300 for diagnostics",
@@ -1479,7 +1482,8 @@
           "sync_device_clock_on_start": "Sync once after first successful device connection",
           "timeout": "Maximum time to wait for response (5-60 seconds)",
           "scan_uart_settings": "Read UART port configuration registers from the device during scanning",
-          "airflow_unit": "Unit for displaying airflow values (percentage or cubic metres per hour)"
+          "airflow_unit": "Unit for displaying airflow values (percentage or cubic metres per hour)",
+          "filter_afc": "Whether the unit has AFC (automatic filter-wear measurement, standard on Energy++ and Enthalpy units) on both filters."
         },
         "description": "Configure advanced integration options. Current settings: Scan interval: {current_scan_interval}s. Timeout: {current_timeout}s. Retry count: {current_retry}. Force full register list: {force_full_enabled}. Device scan enabled: {device_scan_enabled}. Skip known missing registers: {skip_missing_enabled}. Deep scan: {deep_scan_enabled}. Safe scan: {safe_scan_enabled}. Max registers per request: {current_max_registers_per_request}. Log level: {current_log_level}. Transport: {transport_label}{transport_details}.",
         "title": "ThesslaGreen Modbus Options"
