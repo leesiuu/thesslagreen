@@ -373,8 +373,8 @@ def test_number_write_path_needs_no_coordinator_proxy(mock_coordinator, register
 _SELECT_WRITE_CASES: list[tuple[str, str, int]] = [
     ("mode", "manual", 1),
     ("mode", "auto", 0),
-    ("season_mode", "summer", 1),
-    ("season_mode", "winter", 0),
+    ("season_mode", "summer", 0),
+    ("season_mode", "winter", 1),
     ("bypass_user_mode", "mode_2", 2),
     ("gwc_regen", "daily_schedule", 1),
     ("gwc_regen", "inactive", 0),
