@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.9.1] - 2026-10-22
+
+> Fork release, `leesiuu/thesslagreen`: `2.9.0` plus two fixes, each also offered upstream as its own pull request.
+
+### Fixed
+
+- **Service option lists.** `async_setup_options` now fills the option lists in place instead of rebinding them, so the service schemas built at import see the loaded values. Before, `reset_filters`, `reset_settings`, `set_special_mode`, `set_airflow_schedule`, `set_bypass_parameters`, `set_gwc_parameters` and `set_modbus_parameters` rejected every value with `value must be one of []` (blakinio/thesslagreen#1787).
+- **Serial port after a reload.** A shut-down coordinator no longer reconnects: a poll or write still running or queued during an unload or reload used to reopen the serial port, which pymodbus opens exclusively, leaving the reloaded entry in `setup_retry` until Home Assistant restarted (blakinio/thesslagreen#1788).
+
 ## [2.9.0] - 2026-10-21
 
 > Release of the `leesiuu/thesslagreen` fork, not of upstream `blakinio/thesslagreen`: upstream `v2.8.4` plus the four fixes below, each also offered upstream as its own pull request. The fork exists only until an upstream release carries all four.
